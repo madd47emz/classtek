@@ -1,6 +1,6 @@
+import 'package:classtek/Views/userChoose.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
-import 'login_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -19,7 +19,7 @@ class _SplashScreenState extends State<SplashScreen> {
         const Duration(seconds: 2),
         () => Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => const Login()),
+              MaterialPageRoute(builder: (context) => UserChose()),
             ));
   }
 
@@ -27,26 +27,29 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: Container(
-      decoration: const BoxDecoration(color: Color(0xFF007AFF)),
+      decoration: const BoxDecoration(
+        color: Color(0xFF007AFF),
+      ),
       child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Container(
-              height: MediaQuery.of(context).size.height * 0.18,
+              height: 100,
+              width: 100,
               decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(90),
                 color: Colors.white,
                 image: const DecorationImage(
                   image: AssetImage('assets/Logo.png'),
                   fit: BoxFit.cover,
                 ),
-                borderRadius: BorderRadius.circular(
-                    MediaQuery.of(context).size.height * 0.18 / 2),
               ),
             ),
             SizedBox(
-                height: MediaQuery.of(context).size.height * 0.1,
-                width: double.infinity),
+              height: MediaQuery.of(context).size.height * 0.1,
+              width: double.infinity,
+            ),
             const CircularProgressIndicator(
               color: Colors.white,
             ),

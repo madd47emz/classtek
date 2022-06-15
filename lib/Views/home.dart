@@ -13,11 +13,9 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   final List<NewsCard> nList = [
-    const NewsCard("CPC S2", "you will have it in 08/06"),
-    const NewsCard("CPC S2", "you will have it in 08/06"),
-    const NewsCard("CPC S2", "you will have it in 08/06"),
-    const NewsCard("CPC S2", "you will have it in 08/06"),
-    const NewsCard("CPC S2", "you will have it in 08/06"),
+    const NewsCard(
+      "CPC S2",
+    ),
   ];
   final cList = [
     const Cell("Algorithms", "A10", 1, "8:00"),

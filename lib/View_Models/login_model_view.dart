@@ -1,27 +1,34 @@
+import 'package:classtek/Models/student.dart';
+import 'package:classtek/repository/loginRepo.dart';
+
+import '../Models/teacher.dart';
+
 class LoginModelView {
-  static String? emailValidator(String? value) {
-    if (value!.isEmpty) {
-      return "Email cannot be empty";
-    }
+  String email;
+  String password;
+  late bool status;
 
-    if (!RegExp("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]").hasMatch(value)) {
-      return ("Please enter a valid email");
+  LoginModelView({required this.email, required this.password});
+
+  Future<SMessage> studentLogin() async {
+    var student = await LoginApi.studentLogin(email, password);
+    if (student == null) {
+      status = false;
     } else {
-      return null;
+      status = true;
+      return student;
     }
+    return SMessage();
   }
 
-  static String? passwordValidator(String? value) {
-    if (value!.isEmpty) {
-      return "Password cannot be empty";
-    }
-
-    if (value.length < 8) {
-      return ("please enter valid password min. 8 character");
+  Future<TMessage> teacherLogin() async {
+    var teacher = await LoginApi.teacherLogin(email, password);
+    if (teacher == null) {
+      status = false;
     } else {
-      return null;
+      status = true;
+      return teacher;
     }
+    return TMessage();
   }
-
-  void SignIn(String email, String password) async {}
 }

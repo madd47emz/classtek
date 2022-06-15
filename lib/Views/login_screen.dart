@@ -1,19 +1,28 @@
+import 'package:classtek/View_Models/login_model_view.dart';
+import 'package:classtek/constants/colors.dart';
 import 'package:flutter/material.dart';
 
 class Login extends StatefulWidget {
-  const Login({Key? key}) : super(key: key);
+  final String type;
+  const Login(this.type, {Key? key}) : super(key: key);
 
   @override
-  State<Login> createState() => _LoginState();
+  State<Login> createState() => _LoginState(type);
 }
 
 class _LoginState extends State<Login> {
+  String type;
+  _LoginState(this.type);
+  LoginModelView modelView = LoginModelView(email: "", password: "");
+  var email;
+  var password;
   final textFieldColor = const Color(0x333282B8);
   final mainColor = const Color(0xFF007AFF);
   static const double verticalMargin = 20;
   final margin = const EdgeInsets.fromLTRB(20, 0, 20, 20);
   final double r = 20;
   var _isObscure = true;
+  final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,7 +37,9 @@ class _LoginState extends State<Login> {
                       child: SingleChildScrollView(
                           scrollDirection: Axis.vertical,
                           child: Form(
-                              key: GlobalKey<FormState>(),
+                              autovalidateMode:
+                                  AutovalidateMode.onUserInteraction,
+                              key: _formKey,
                               child: Column(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -75,7 +86,7 @@ class _LoginState extends State<Login> {
                                           MediaQuery.of(context).size.height *
                                               0.1,
                                       child: TextFormField(
-                                          onChanged: (name) => {},
+                                          onChanged: (name) => {email = name},
                                           style: const TextStyle(
                                               color: Color(0xFF0F4C75),
                                               fontWeight: FontWeight.bold),
@@ -104,7 +115,18 @@ class _LoginState extends State<Login> {
                                           ),
                                           keyboardType:
                                               TextInputType.emailAddress,
-                                          // validator:
+                                          validator: (value) {
+                                            if (email!.isEmpty) {
+                                              return "Email cannot be empty";
+                                            }
+                                            if (!RegExp(
+                                                    "^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]")
+                                                .hasMatch(email)) {
+                                              return ("Please enter a valid email");
+                                            } else {
+                                              return null;
+                                            }
+                                          },
                                           cursorColor: const Color(0xFF0F4C75)),
                                     ),
                                     Container(
@@ -113,7 +135,18 @@ class _LoginState extends State<Login> {
                                           MediaQuery.of(context).size.height *
                                               0.1,
                                       child: TextFormField(
-                                          onChanged: (name) => {},
+                                          onChanged: (p) => {password = p},
+                                          validator: (value) {
+                                            if (value!.isEmpty) {
+                                              return "Password cannot be empty";
+                                            }
+
+                                            if (value.length < 4) {
+                                              return ("please enter valid password min. 8 character");
+                                            } else {
+                                              return null;
+                                            }
+                                          },
                                           style: const TextStyle(
                                               color: Color(0xFF0F4C75),
                                               fontWeight: FontWeight.bold),
@@ -157,6 +190,94 @@ class _LoginState extends State<Login> {
                                           cursorColor: const Color(0xFF0F4C75)),
                                     ),
                                     GestureDetector(
+                                      onTap: () async {
+                                        if (_formKey.currentState!.validate()) {
+                                          modelView.email = email;
+                                          modelView.password = password;
+                                          if (type == "student") {
+                                            var name =
+                                                await modelView.studentLogin();
+                                            if (modelView.status) {
+                                              print(name.name);
+                                            } else {
+                                              showDialog(
+                                                  context: context,
+                                                  builder: (context) =>
+                                                      AlertDialog(
+                                                        title: const Center(
+                                                          child: Text(
+                                                            "Trouble",
+                                                            style: TextStyle(
+                                                                color:
+                                                                    primaryColor),
+                                                          ),
+                                                        ),
+                                                        content: const Text(
+                                                            "Incorrect email or password"),
+                                                        actions: [
+                                                          RaisedButton(
+                                                              onPressed: () {
+                                                                Navigator.pop(
+                                                                    context);
+                                                              },
+                                                              color:
+                                                                  primaryColor,
+                                                              child: Text(
+                                                                  'try again',
+                                                                  style: TextStyle(
+                                                                      color: Colors
+                                                                          .white)))
+                                                        ],
+                                                      ));
+                                            }
+                                          }
+                                          if (type == "teacher") {
+                                            var name =
+                                                await modelView.teacherLogin();
+                                            if (modelView.status) {
+                                              print(name.name);
+                                            } else {
+                                              showDialog(
+                                                  context: context,
+                                                  builder: (context) =>
+                                                      AlertDialog(
+                                                        title: const Text(
+                                                          "Trouble",
+                                                          style: TextStyle(
+                                                              color:
+                                                                  primaryColor),
+                                                        ),
+                                                        content: const Text(
+                                                            "Incorrect email or password"),
+                                                        actions: [
+                                                          RaisedButton(
+                                                              onPressed: () {
+                                                                Navigator.pop(
+                                                                    context);
+                                                              },
+                                                              color:
+                                                                  primaryColor)
+                                                        ],
+                                                      ));
+                                            }
+                                          }
+                                        }
+                                        // If the form is valid, display a snackbar. In the real world,
+                                        // you'd often call a server or save the information in a database.
+
+                                        // sMessage? login;
+                                        // modelView.email = email!;
+                                        // modelView.password = password!;
+
+                                        // login = modelView.studentLogin()
+                                        //     as sMessage?;
+
+                                        // Navigator.push(
+                                        //     context,
+                                        //     MaterialPageRoute(
+                                        //         builder: (context) =>
+                                        //             Test(login)));
+                                      },
                                       child: Container(
                                         margin: margin,
                                         height:

@@ -1,0 +1,3 @@
+Repository is a web data provider instead of mixing logic and network data fetching in the view model
+  create abstract class of data management func
+TYPES(classes impliment Repository): api, local(sqlLite), Testing 

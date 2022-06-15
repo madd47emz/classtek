@@ -84,18 +84,42 @@ class _NewsState extends State<News> {
             margin: const EdgeInsets.fromLTRB(42, 30, 42, 0),
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 35, vertical: 10),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Text("Content",
-                    style: TextStyle(
-                        color: Colors.black.withOpacity(0.7),
-                        fontSize: 14,
-                        fontWeight: FontWeight.w700)),
-              ],
-            ),
-          ),
+              padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 20),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text("Content",
+                      style: TextStyle(
+                          color: Colors.black.withOpacity(0.7),
+                          fontSize: 14,
+                          fontWeight: FontWeight.w700)),
+                  GestureDetector(
+                    child: Container(
+                      height: 26,
+                      width: 106,
+                      decoration: BoxDecoration(
+                          color: primaryColor,
+                          borderRadius: BorderRadius.circular(10),
+                          boxShadow: const [
+                            BoxShadow(
+                              color: Color(0x3282B833),
+                              blurRadius: 8,
+                              spreadRadius: 3,
+                              offset:
+                                  Offset(0, 4), // changes position of shadow
+                            ),
+                          ]),
+                      child: const Center(
+                        child: Text("Attach file",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 12,
+                                fontWeight: FontWeight.w700)),
+                      ),
+                    ),
+                  ),
+                ],
+              )),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
             child: TextField(

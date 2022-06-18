@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import '../constants/colors.dart';
 
 class Cell extends StatelessWidget {
-  final String title;
+  final String module;
   final String room;
-  final int group;
+  final String groupOrTeacher;
   final String time;
-  const Cell(this.title, this.room, this.group, this.time, {Key? key})
+  const Cell(this.module, this.room, this.groupOrTeacher, this.time, {Key? key})
       : super(key: key);
 
   @override
@@ -41,12 +41,12 @@ class Cell extends StatelessWidget {
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(title,
+              Text(module,
                   style: TextStyle(
                       color: Colors.black.withOpacity(0.7),
                       fontSize: 14,
                       fontWeight: FontWeight.w700)),
-              Text("group$group",
+              Text(groupOrTeacher,
                   style: const TextStyle(
                       color: primaryColor,
                       fontSize: 12,

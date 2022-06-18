@@ -1,3 +1,5 @@
+import 'package:classtek/Models/group.dart';
+
 class Student {
   bool? success;
   SMessage? message;
@@ -24,20 +26,13 @@ class SMessage {
   String? id;
   String? name;
   String? lastName;
-  String? email;
   Uri? profileImage;
-  // Group group;
+  Group? group;
   // Section section;
   // Null speciality;
   // Batch batch;
 
-  SMessage({
-    this.id,
-    this.name,
-    this.lastName,
-    this.email,
-    this.profileImage,
-  });
+  SMessage({this.id, this.name, this.lastName, this.profileImage, this.group});
 
   // this.group,
   // this.section,
@@ -48,9 +43,9 @@ class SMessage {
     id = json['id'];
     name = json['name'];
     lastName = json['lastName'];
-    email = json['email'];
     profileImage = json['profileImage'];
-    // group = json['group'] != null ? Group.fromJson(json['group']) : null;
+    group = Group.fromJson(json['group']);
+    // group = json['group'] != null ?  : null;
     // section =
     //     json['section'] != null ? Section.fromJson(json['section']) : null;
     // speciality = json['speciality'];
@@ -62,11 +57,9 @@ class SMessage {
     data['id'] = id;
     data['name'] = name;
     data['lastName'] = lastName;
-    data['email'] = email;
     data['profileImage'] = profileImage;
-    // if (this.group != null) {
-    //   data['group'] = this.group.toJson();
-    // }
+
+    data['group'] = group!.toJson();
     // if (this.section != null) {
     //   data['section'] = this.section.toJson();
     // }

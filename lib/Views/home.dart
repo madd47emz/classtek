@@ -1,31 +1,30 @@
+import 'package:classtek/Models/news.dart';
+import 'package:classtek/Models/teacherSchedule.dart';
+import 'package:classtek/View_Models/home_model_view.dart';
+import 'package:classtek/Views/newsCard.dart';
+import 'package:classtek/Views/see_allCell.dart';
 import 'package:flutter/material.dart';
+import '../Models/groupSchedule.dart';
+import '../Models/teacher.dart';
 import '../constants/colors.dart';
-import 'newsCard.dart';
 import 'schedulCell.dart';
-import 'see_all.dart';
 
 class Home extends StatefulWidget {
-  const Home({Key? key}) : super(key: key);
+  final bool type;
+  final HomeModelView model;
+
+  const Home(this.type, this.model, {Key? key}) : super(key: key);
 
   @override
-  State<Home> createState() => _HomeState();
+  State<Home> createState() => _HomeState(type, model);
 }
 
 class _HomeState extends State<Home> {
-  final List<NewsCard> nList = [
-    const NewsCard(
-      "CPC S2",
-    ),
-  ];
-  final cList = [
-    const Cell("Algorithms", "A10", 1, "8:00"),
-    const Cell("Algorithms", "A10", 1, "8:00"),
-    const Cell("Algorithms", "A10", 1, "8:00"),
-    const Cell("Algorithms", "A10", 1, "8:00"),
-    const Cell("Algorithms", "A10", 1, "8:00"),
-    const Cell("Algorithms", "A10", 1, "8:00"),
-    const Cell("Algorithms", "A10", 1, "8:00"),
-  ];
+  final HomeModelView hModel;
+  bool canSeeAll = false;
+
+  final bool type;
+  _HomeState(this.type, this.hModel);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,8 +35,9 @@ class _HomeState extends State<Home> {
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            const Text("Welcome teacher!",
-                style: TextStyle(
+            Text(
+                "Welcome ${type ? hModel.teacher!.name : hModel.student!.name}!",
+                style: const TextStyle(
                     color: primaryColor,
                     fontSize: 16,
                     fontWeight: FontWeight.w700)),
@@ -65,7 +65,7 @@ class _HomeState extends State<Home> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const Padding(
-              padding: EdgeInsets.fromLTRB(30, 30, 0, 20),
+              padding: EdgeInsets.fromLTRB(30, 20, 0, 10),
               child: Text(
                 "News",
                 style: TextStyle(
@@ -75,18 +75,35 @@ class _HomeState extends State<Home> {
               ),
             ),
             SizedBox(
-              height: 66,
-              width: MediaQuery.of(context).size.width,
-              child: ListView.builder(
-                // ListView.separated(
-                //   separatorBuilder: (context, idx) => const Divider(),
-                itemBuilder: (context, idx) {
-                  return nList[idx];
-                },
-                scrollDirection: Axis.horizontal,
-                itemCount: nList.length,
-              ),
-            ),
+                height: 66,
+                width: MediaQuery.of(context).size.width,
+                child: type
+                    ? NewsCard(NMessage(
+                        fileUrl: Uri(),
+                        object: "No News yet",
+                        message:
+                            "It may be out of connection or There are no news",
+                        sender: TMessage(name: "Classtek", lastName: "App")))
+                    : FutureBuilder<List<NMessage>>(
+                        future: hModel.getAllGroupNews(),
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return const Center(
+                              child: CircularProgressIndicator(
+                                  color: Colors.white),
+                            );
+                          } else {
+                            var news = snapshot.data!;
+                            return ListView.builder(
+                              itemBuilder: (context, idx) {
+                                return NewsCard(news[idx]);
+                              },
+                              scrollDirection: Axis.horizontal,
+                              itemCount: news.length,
+                            );
+                          }
+                        })),
             Expanded(
               child: Container(
                 margin: const EdgeInsets.only(top: 20),
@@ -109,11 +126,13 @@ class _HomeState extends State<Home> {
                                     fontWeight: FontWeight.w700)),
                             GestureDetector(
                               onTap: (() => setState(() {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                Schedule(cList)));
+                                    if (canSeeAll) {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  Schedule(type, hModel)));
+                                    }
                                   })),
                               child: Text("See all",
                                   style: TextStyle(
@@ -126,16 +145,87 @@ class _HomeState extends State<Home> {
                       ),
                       Expanded(
                         child: Container(
-                          child: ListView.builder(
-                            // ListView.separated(
-                            //   separatorBuilder: (context, idx) => const Divider(),
-                            itemBuilder: (context, idx) {
-                              return cList[idx];
-                            },
-                            scrollDirection: Axis.vertical,
-                            itemCount: cList.length,
-                          ),
-                        ),
+                            child: type
+                                ? FutureBuilder<List<TSession>>(
+                                    future: hModel.getTodayTeacherSession(),
+                                    builder: (context, snapshot) {
+                                      if (snapshot.connectionState ==
+                                          ConnectionState.waiting) {
+                                        return const Center(
+                                          child: CircularProgressIndicator(
+                                              color: primaryColor),
+                                        );
+                                      } else {
+                                        var today = snapshot.data!;
+
+                                        if (today.isNotEmpty) {
+                                          canSeeAll = true;
+                                          return ListView.builder(
+                                            itemBuilder: (context, idx) {
+                                              return Cell(
+                                                  today[idx].module!.shortName!,
+                                                  today[idx].sale!.name!,
+                                                  today[idx].group!.name!,
+                                                  today[idx]
+                                                      .startingTime!
+                                                      .substring(0, 4));
+                                            },
+                                            scrollDirection: Axis.vertical,
+                                            itemCount: today.length,
+                                          );
+                                        }
+                                        return Center(
+                                          child: Text("No Session Today",
+                                              style: TextStyle(
+                                                  color: Colors.black
+                                                      .withOpacity(0.9),
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.w700)),
+                                        );
+                                      }
+                                    })
+                                : FutureBuilder<List<GSession>>(
+                                    future: hModel.getTodayGroupSession(),
+                                    builder: (context, snapshot) {
+                                      if (snapshot.connectionState ==
+                                          ConnectionState.waiting) {
+                                        return const Center(
+                                          child: CircularProgressIndicator(
+                                              color: primaryColor),
+                                        );
+                                      } else {
+                                        var today = snapshot.data!;
+
+                                        if (today.isNotEmpty) {
+                                          canSeeAll = true;
+                                          return ListView.builder(
+                                            itemBuilder: (context, idx) {
+                                              return Cell(
+                                                  today[idx].module!.shortName!,
+                                                  today[idx].sale!.name!,
+                                                  today[idx].teacher!.name! +
+                                                      today[idx]
+                                                          .teacher!
+                                                          .lastName!
+                                                          .substring(0, 1),
+                                                  today[idx]
+                                                      .startingTime!
+                                                      .substring(0, 5));
+                                            },
+                                            scrollDirection: Axis.vertical,
+                                            itemCount: today.length,
+                                          );
+                                        }
+                                        return Center(
+                                          child: Text("No Session Today",
+                                              style: TextStyle(
+                                                  color: Colors.black
+                                                      .withOpacity(0.9),
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.w700)),
+                                        );
+                                      }
+                                    })),
                       ),
                     ]),
               ),

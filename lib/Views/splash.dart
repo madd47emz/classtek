@@ -16,7 +16,7 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
     // ignore: avoid_print
     Timer(
-        const Duration(seconds: 2),
+        const Duration(seconds: 4),
         () => Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => UserChose()),

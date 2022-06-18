@@ -1,6 +1,9 @@
+import 'package:classtek/View_Models/home_model_view.dart';
 import 'package:classtek/View_Models/login_model_view.dart';
 import 'package:classtek/constants/colors.dart';
 import 'package:flutter/material.dart';
+
+import 'dashboard.dart';
 
 class Login extends StatefulWidget {
   final String type;
@@ -44,7 +47,7 @@ class _LoginState extends State<Login> {
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
-                                    Image.asset('assets/illustration.jpeg',
+                                    Image.asset('assets/login.png',
                                         height:
                                             MediaQuery.of(context).size.height *
                                                 0.5,
@@ -192,13 +195,29 @@ class _LoginState extends State<Login> {
                                     GestureDetector(
                                       onTap: () async {
                                         if (_formKey.currentState!.validate()) {
+                                          showDialog(
+                                            context: context,
+                                            builder: (context) => const Center(
+                                              child: CircularProgressIndicator(
+                                                  backgroundColor: Colors.white,
+                                                  color: primaryColor),
+                                            ),
+                                          );
                                           modelView.email = email;
                                           modelView.password = password;
                                           if (type == "student") {
-                                            var name =
+                                            var student =
                                                 await modelView.studentLogin();
                                             if (modelView.status) {
-                                              print(name.name);
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          Dash(
+                                                              false,
+                                                              HomeModelView(
+                                                                  student,
+                                                                  null))));
                                             } else {
                                               showDialog(
                                                   context: context,
@@ -222,7 +241,7 @@ class _LoginState extends State<Login> {
                                                               },
                                                               color:
                                                                   primaryColor,
-                                                              child: Text(
+                                                              child: const Text(
                                                                   'try again',
                                                                   style: TextStyle(
                                                                       color: Colors
@@ -232,10 +251,18 @@ class _LoginState extends State<Login> {
                                             }
                                           }
                                           if (type == "teacher") {
-                                            var name =
+                                            var teacher =
                                                 await modelView.teacherLogin();
                                             if (modelView.status) {
-                                              print(name.name);
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          Dash(
+                                                              true,
+                                                              HomeModelView(
+                                                                  null,
+                                                                  teacher))));
                                             } else {
                                               showDialog(
                                                   context: context,
@@ -262,21 +289,6 @@ class _LoginState extends State<Login> {
                                             }
                                           }
                                         }
-                                        // If the form is valid, display a snackbar. In the real world,
-                                        // you'd often call a server or save the information in a database.
-
-                                        // sMessage? login;
-                                        // modelView.email = email!;
-                                        // modelView.password = password!;
-
-                                        // login = modelView.studentLogin()
-                                        //     as sMessage?;
-
-                                        // Navigator.push(
-                                        //     context,
-                                        //     MaterialPageRoute(
-                                        //         builder: (context) =>
-                                        //             Test(login)));
                                       },
                                       child: Container(
                                         margin: margin,

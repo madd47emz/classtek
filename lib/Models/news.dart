@@ -2,33 +2,56 @@
 //
 //     final news = newsFromJson(jsonString);
 
-import 'dart:convert';
-
 import 'package:classtek/Models/teacher.dart';
 
 class NewsOfGroup {
+  bool? success;
+  List<NMessage>? message;
+
+  NewsOfGroup({this.success, this.message});
+
+  NewsOfGroup.fromJson(Map<String, dynamic> json) {
+    success = json['success'];
+
+    message = <NMessage>[];
+    json['message'].forEach((v) {
+      message!.add(NMessage.fromJson(v));
+    });
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['success'] = success;
+    if (message != null) {
+      data['message'] = message!.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
+}
+
+class NMessage {
   int? newsId;
   int? groupId;
   String? object;
   String? message;
   Uri? fileUrl;
-  Teacher? sender;
+  TMessage? sender;
 
-  NewsOfGroup(
-      {required this.newsId,
-      required this.groupId,
-      required this.object,
+  NMessage(
+      {this.newsId,
+      this.groupId,
+      this.object,
       this.message,
       this.fileUrl,
-      required this.sender});
+      this.sender});
 
-  NewsOfGroup.fromJson(Map<String, dynamic> json) {
+  NMessage.fromJson(Map<String, dynamic> json) {
     newsId = json['newsId'];
     groupId = json['group_Id'];
     object = json['object'];
     message = json['message'];
     fileUrl = json['fileUrl'];
-    sender = Teacher.fromJson(json['sender']);
+    sender = TMessage.fromJson(json['sender']);
   }
 
   Map<String, dynamic> toJson() {

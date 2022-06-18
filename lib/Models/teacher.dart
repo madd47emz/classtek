@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 class Teacher {
   bool? success;
   TMessage? message;
@@ -26,14 +24,12 @@ class TMessage {
   String? id;
   String? name;
   String? lastName;
-  String? email;
   Uri? profileImage;
 
   TMessage({
     this.id,
     this.name,
     this.lastName,
-    this.email,
     this.profileImage,
   });
 
@@ -41,7 +37,6 @@ class TMessage {
     id = json['id'];
     name = json['name'];
     lastName = json['lastName'];
-    email = json['email'];
     profileImage = json['profileImage'];
   }
 
@@ -50,7 +45,6 @@ class TMessage {
     data['id'] = id;
     data['name'] = name;
     data['lastName'] = lastName;
-    data['email'] = email;
     data['profileImage'] = profileImage;
     return data;
   }

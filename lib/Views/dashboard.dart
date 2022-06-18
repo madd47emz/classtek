@@ -1,3 +1,4 @@
+import 'package:classtek/View_Models/home_model_view.dart';
 import 'package:classtek/Views/chapter.dart';
 import 'package:classtek/Views/chat.dart';
 import 'package:classtek/Views/home.dart';
@@ -6,41 +7,46 @@ import 'package:flutter/material.dart';
 import '../constants/colors.dart';
 
 class Dash extends StatefulWidget {
-  const Dash({Key? key}) : super(key: key);
+  final HomeModelView homeModelView;
+  final bool type;
+  const Dash(this.type, this.homeModelView, {Key? key}) : super(key: key);
 
   @override
-  State<Dash> createState() => _DashState();
+  State<Dash> createState() => _DashState(type, homeModelView);
 }
 
 class _DashState extends State<Dash> {
+  bool type;
+  HomeModelView homeModelView;
+  _DashState(this.type, this.homeModelView);
   int current = 0;
-  Icon float = const Icon(Icons.add);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => setState(() {
-          Navigator.push(
-              context, MaterialPageRoute(builder: (context) => const News()));
-        }),
-        backgroundColor: primaryColor,
-        elevation: 20,
-        child: float,
-      ),
+      floatingActionButton: type
+          ? FloatingActionButton(
+              onPressed: () => setState(() {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => const News()));
+              }),
+              backgroundColor: primaryColor,
+              elevation: 20,
+              child: const Icon(Icons.add),
+            )
+          : null,
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       body: IndexedStack(
         index: current,
-        children: const [
-          Home(),
-          Chapter(),
-          Chat(),
-          Scaffold(),
+        children: [
+          Home(type, homeModelView),
+          Chapter(type),
+          const Chat(),
+          const Scaffold(),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
           currentIndex: current,
           onTap: (idx) => setState(() {
-                float = const Icon(Icons.add);
                 current = idx;
               }),
           showSelectedLabels: false,

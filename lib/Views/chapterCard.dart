@@ -67,6 +67,7 @@ class _ChapterCardState extends State<ChapterCard> {
           ListTile(
             title: const Text("final,pdf",
                 style: TextStyle(
+                    decoration: TextDecoration.underline,
                     color: primaryColor,
                     fontSize: 10,
                     fontWeight: FontWeight.w400)),

@@ -12,12 +12,12 @@ class News extends StatefulWidget {
 class _NewsState extends State<News> {
   @override
   final List<Group> gList = [
-    const Group(1),
-    const Group(2),
-    const Group(3),
-    const Group(4),
-    const Group(5),
-    const Group(6),
+    Group(1),
+    Group(2),
+    Group(3),
+    Group(4),
+    Group(5),
+    Group(6),
   ];
   @override
   Widget build(BuildContext context) {
@@ -110,7 +110,7 @@ class _NewsState extends State<News> {
                             ),
                           ]),
                       child: const Center(
-                        child: Text("Attach file",
+                        child: Text("ATTACH FILE",
                             style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 12,

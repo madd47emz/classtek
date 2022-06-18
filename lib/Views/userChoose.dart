@@ -34,9 +34,9 @@ class Page extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Image.asset('$type.jpg',
-                width: MediaQuery.of(context).size.width * 0.5,
-                height: MediaQuery.of(context).size.height * 0.5,
+            Image.asset('$type.png',
+                width: MediaQuery.of(context).size.width * 0.75,
+                height: MediaQuery.of(context).size.height * 0.75,
                 fit: BoxFit.cover),
             const SizedBox(
               height: 20,
@@ -45,7 +45,7 @@ class Page extends StatelessWidget {
                 style: const TextStyle(
                     color: primaryColor,
                     fontSize: 26,
-                    fontWeight: FontWeight.w700))
+                    fontWeight: FontWeight.bold))
           ],
         ),
       ),

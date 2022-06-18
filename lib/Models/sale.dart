@@ -1,17 +1,13 @@
-class Group {
-  String? id;
+class Sale {
   String? name;
-
-  Group({this.id, this.name});
-
-  Group.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
+  Sale({
+    this.name,
+  });
+  Sale.fromJson(Map<String, dynamic> json) {
     name = json['name'];
   }
-
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['id'] = id;
     data['name'] = name;
     return data;
   }

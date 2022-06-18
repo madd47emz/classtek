@@ -4,13 +4,16 @@ import 'modulCard.dart';
 import 'chapterCard.dart';
 
 class Chapter extends StatefulWidget {
-  const Chapter({Key? key}) : super(key: key);
+  final bool type;
+  const Chapter(this.type, {Key? key}) : super(key: key);
 
   @override
-  State<Chapter> createState() => _ChapterState();
+  State<Chapter> createState() => _ChapterState(type);
 }
 
 class _ChapterState extends State<Chapter> {
+  final bool type;
+  _ChapterState(this.type);
   final List<Module> mList = [
     const Module("Module 1"),
     const Module("Module 1"),
@@ -105,31 +108,38 @@ class _ChapterState extends State<Chapter> {
                                     color: Colors.black.withOpacity(0.7),
                                     fontSize: 14,
                                     fontWeight: FontWeight.w700)),
-                            GestureDetector(
-                              child: Container(
-                                height: 26,
-                                width: 106,
-                                decoration: BoxDecoration(
-                                    color: primaryColor,
-                                    borderRadius: BorderRadius.circular(10),
-                                    boxShadow: const [
-                                      BoxShadow(
-                                        color: Color(0x3282B833),
-                                        blurRadius: 8,
-                                        spreadRadius: 3,
-                                        offset: Offset(
-                                            0, 4), // changes position of shadow
+                            type
+                                ? GestureDetector(
+                                    child: Container(
+                                      height: 26,
+                                      width: 106,
+                                      decoration: BoxDecoration(
+                                          color: primaryColor,
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          boxShadow: const [
+                                            BoxShadow(
+                                              color: Color(0x3282B833),
+                                              blurRadius: 8,
+                                              spreadRadius: 3,
+                                              offset: Offset(0,
+                                                  4), // changes position of shadow
+                                            ),
+                                          ]),
+                                      child: const Center(
+                                        child: Text("ADD CHAPTER",
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.w700)),
                                       ),
-                                    ]),
-                                child: const Center(
-                                  child: Text("ADD CHAPTER",
-                                      style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.w700)),
-                                ),
-                              ),
-                            ),
+                                    ),
+                                  )
+                                : Container(
+                                    color: Colors.white,
+                                    height: 26,
+                                    width: 106,
+                                  )
                           ],
                         ),
                       ),

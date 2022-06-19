@@ -40,7 +40,7 @@ class SMessage {
   // this.batch});
 
   SMessage.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
+    id = json['id'].toString();
     name = json['name'];
     lastName = json['lastName'];
     profileImage = json['profileImage'];

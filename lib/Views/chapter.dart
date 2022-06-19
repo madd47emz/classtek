@@ -1,3 +1,5 @@
+import 'package:classtek/View_Models/marks_model_Views.dart';
+import 'package:classtek/Views/marks.dart';
 import 'package:flutter/material.dart';
 import '../constants/colors.dart';
 import 'modulCard.dart';
@@ -5,15 +7,18 @@ import 'chapterCard.dart';
 
 class Chapter extends StatefulWidget {
   final bool type;
-  const Chapter(this.type, {Key? key}) : super(key: key);
+  String? id;
+  Chapter(this.type, this.id, {Key? key}) : super(key: key);
 
   @override
-  State<Chapter> createState() => _ChapterState(type);
+  State<Chapter> createState() => _ChapterState(type, id);
 }
 
 class _ChapterState extends State<Chapter> {
   final bool type;
-  _ChapterState(this.type);
+
+  String? id;
+  _ChapterState(this.type, this.id);
   final List<Module> mList = [
     const Module("Module 1"),
     const Module("Module 1"),
@@ -42,11 +47,17 @@ class _ChapterState extends State<Chapter> {
         elevation: 0,
         shadowColor: Colors.white,
         backgroundColor: Colors.white,
-        title: const Text("Chapter management",
-            style: TextStyle(
-                color: primaryColor,
-                fontSize: 16,
-                fontWeight: FontWeight.w700)),
+        title: type
+            ? const Text("Chapter management",
+                style: TextStyle(
+                    color: primaryColor,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w700))
+            : const Text("Chapters & Evaluation Browsing",
+                style: TextStyle(
+                    color: primaryColor,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w700)),
         leading: Container(
           height: 45,
           decoration: const BoxDecoration(
@@ -108,38 +119,47 @@ class _ChapterState extends State<Chapter> {
                                     color: Colors.black.withOpacity(0.7),
                                     fontSize: 14,
                                     fontWeight: FontWeight.w700)),
-                            type
-                                ? GestureDetector(
-                                    child: Container(
-                                      height: 26,
-                                      width: 106,
-                                      decoration: BoxDecoration(
-                                          color: primaryColor,
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          boxShadow: const [
-                                            BoxShadow(
-                                              color: Color(0x3282B833),
-                                              blurRadius: 8,
-                                              spreadRadius: 3,
-                                              offset: Offset(0,
-                                                  4), // changes position of shadow
-                                            ),
-                                          ]),
-                                      child: const Center(
-                                        child: Text("ADD CHAPTER",
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 12,
-                                                fontWeight: FontWeight.w700)),
+                            GestureDetector(
+                              onTap: () {
+                                type
+                                    ? null
+                                    // ? Navigator.push(
+                                    //     context,
+                                    //     MaterialPageRoute(
+                                    //         builder: (context) =>
+                                    //             const fillChapter()))
+                                    : Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => Marks(
+                                                MarksModelView(
+                                                    studentId: "2"))));
+                              },
+                              child: Container(
+                                height: 26,
+                                width: 106,
+                                decoration: BoxDecoration(
+                                    color: primaryColor,
+                                    borderRadius: BorderRadius.circular(10),
+                                    boxShadow: const [
+                                      BoxShadow(
+                                        color: Color(0x3282B833),
+                                        blurRadius: 8,
+                                        spreadRadius: 3,
+                                        offset: Offset(
+                                            0, 4), // changes position of shadow
                                       ),
-                                    ),
-                                  )
-                                : Container(
-                                    color: Colors.white,
-                                    height: 26,
-                                    width: 106,
-                                  )
+                                    ]),
+                                child: Center(
+                                  child: Text(
+                                      type ? "ADD CHAPTER" : "CONSULT MARKS",
+                                      style: const TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.w700)),
+                                ),
+                              ),
+                            )
                           ],
                         ),
                       ),

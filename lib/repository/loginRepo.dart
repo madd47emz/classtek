@@ -8,7 +8,6 @@ class LoginApi {
       var response = await Dio().post(
           'https://schoolsystemmanagement-production-9724.up.railway.app/student/login',
           data: {'email': email, 'password': password});
-
       Student student = Student.fromJson(response.data);
       if (student.success!) return student.message;
       return null;
@@ -26,7 +25,6 @@ class LoginApi {
 
       Teacher teacher = Teacher.fromJson(response.data);
       if (teacher.success!) return teacher.message;
-      return null;
     } catch (e) {
       print(e);
     }

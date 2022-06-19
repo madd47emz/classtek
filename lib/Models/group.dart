@@ -5,8 +5,8 @@ class Group {
   Group({this.id, this.name});
 
   Group.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    name = json['name'];
+    id = json['id'].toString();
+    name = json['name'].toString();
   }
 
   Map<String, dynamic> toJson() {

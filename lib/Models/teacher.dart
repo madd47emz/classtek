@@ -24,7 +24,7 @@ class TMessage {
   String? id;
   String? name;
   String? lastName;
-  Uri? profileImage;
+  String? profileImage;
 
   TMessage({
     this.id,
@@ -34,10 +34,10 @@ class TMessage {
   });
 
   TMessage.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
+    id = json['id'].toString();
     name = json['name'];
     lastName = json['lastName'];
-    profileImage = json['profileImage'];
+    profileImage = json['profileImage'].toString();
   }
 
   Map<String, dynamic> toJson() {

@@ -30,24 +30,14 @@ class NewsOfGroup {
 }
 
 class NMessage {
-  int? newsId;
-  int? groupId;
   String? object;
   String? message;
-  Uri? fileUrl;
+  String? fileUrl;
   TMessage? sender;
 
-  NMessage(
-      {this.newsId,
-      this.groupId,
-      this.object,
-      this.message,
-      this.fileUrl,
-      this.sender});
+  NMessage({this.object, this.message, this.fileUrl, this.sender});
 
   NMessage.fromJson(Map<String, dynamic> json) {
-    newsId = json['newsId'];
-    groupId = json['group_Id'];
     object = json['object'];
     message = json['message'];
     fileUrl = json['fileUrl'];
@@ -56,8 +46,6 @@ class NMessage {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['newsId'] = newsId;
-    data['group_Id'] = groupId;
     data['object'] = object;
     data['message'] = message;
     data['fileUrl'] = fileUrl;

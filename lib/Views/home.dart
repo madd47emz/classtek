@@ -2,6 +2,7 @@ import 'package:classtek/Models/news.dart';
 import 'package:classtek/Models/teacherSchedule.dart';
 import 'package:classtek/View_Models/home_model_view.dart';
 import 'package:classtek/Views/newsCard.dart';
+import 'package:classtek/Views/profile.dart';
 import 'package:classtek/Views/see_allCell.dart';
 import 'package:flutter/material.dart';
 import '../Models/groupSchedule.dart';
@@ -41,9 +42,29 @@ class _HomeState extends State<Home> {
                     color: primaryColor,
                     fontSize: 16,
                     fontWeight: FontWeight.w700)),
-            IconButton(
-                onPressed: () {},
-                icon: const Icon(Icons.person, color: primaryColor))
+            Container(
+              height: 36,
+              width: 36,
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(10),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.7),
+                      blurRadius: 10,
+                      offset: const Offset(0, 4), // changes position of shadow
+                    ),
+                  ]),
+              child: IconButton(
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => Profile(type, hModel)));
+                    //type, hModel
+                  },
+                  icon: const Icon(Icons.person, color: primaryColor)),
+            )
           ],
         ),
         leading: Container(
@@ -79,7 +100,7 @@ class _HomeState extends State<Home> {
                 width: MediaQuery.of(context).size.width,
                 child: type
                     ? NewsCard(NMessage(
-                        fileUrl: Uri(),
+                        fileUrl: "hi",
                         object: "No News yet",
                         message:
                             "It may be out of connection or There are no news",
@@ -168,7 +189,7 @@ class _HomeState extends State<Home> {
                                                   today[idx].group!.name!,
                                                   today[idx]
                                                       .startingTime!
-                                                      .substring(0, 4));
+                                                      .substring(0, 5));
                                             },
                                             scrollDirection: Axis.vertical,
                                             itemCount: today.length,

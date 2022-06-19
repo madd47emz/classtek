@@ -69,7 +69,7 @@ class _NewsState extends State<Schedule> {
                                   return Cell(
                                       today[idx].module!.shortName!,
                                       today[idx].sale!.name!,
-                                      today[idx].group!.name!,
+                                      '${today[idx].group!.name!}',
                                       today[idx].startingTime!.substring(0, 4));
                                 },
                                 scrollDirection: Axis.vertical,

@@ -10,7 +10,7 @@ import '../repository/newsRepo.dart';
 class HomeModelView {
   SMessage? student;
   TMessage? teacher;
-  final today = DateTime(2022, 6, 12).weekday;
+  final _today = DateTime(2022, 6, 12).weekday;
 
   HomeModelView(this.student, this.teacher);
 
@@ -23,7 +23,7 @@ class HomeModelView {
     GroupSchMessage? schedule =
         await ScheduleRepo.getGroupSchedule(student!.group!.id!);
     if (schedule != null) {
-      switch (today) {
+      switch (_today) {
         case 7:
           return schedule.sunday!;
         case 1:
@@ -43,7 +43,7 @@ class HomeModelView {
     TeacherSchMessage? schedule =
         await ScheduleRepo.getTeacherSchedule(teacher!.id!);
     if (schedule != null) {
-      switch (today) {
+      switch (_today) {
         case 7:
           return schedule.sunday!;
         case 1:

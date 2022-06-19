@@ -15,42 +15,42 @@ class _ChapterCardState extends State<ChapterCard> {
   final content;
   final List<Widget> etList = [
     //first tile of adding session
-    ExpansionTile(
-      leading: const Icon(
-        Icons.circle,
-        color: primaryColor,
-        size: 18,
-      ),
-      title: TextField(
-        onChanged: (session) {},
-        style: TextStyle(
-            color: Colors.black.withOpacity(0.7),
-            fontWeight: FontWeight.w600,
-            fontSize: 12),
-        textAlign: TextAlign.start,
-        decoration: InputDecoration(
-          filled: true,
-          fillColor: Colors.white,
-          hintText: "Set session",
-          hintStyle: TextStyle(
-            fontWeight: FontWeight.w600,
-            fontSize: 12,
-            color: Colors.black.withOpacity(0.5),
-          ),
-        ),
-        keyboardType: TextInputType.text,
-        cursorColor: primaryColor,
-      ),
-      controlAffinity: ListTileControlAffinity.leading,
-      trailing: IconButton(
-        onPressed: (() {}),
-        iconSize: 15,
-        icon: Icon(
-          Icons.download,
-          color: Colors.black.withOpacity(0.5),
-        ),
-      ),
-    ), //first tile of adding session
+    // ExpansionTile(
+    //   leading: const Icon(
+    //     Icons.circle,
+    //     color: primaryColor,
+    //     size: 18,
+    //   ),
+    //   title: TextField(
+    //     onChanged: (session) {},
+    //     style: TextStyle(
+    //         color: Colors.black.withOpacity(0.7),
+    //         fontWeight: FontWeight.w600,
+    //         fontSize: 12),
+    //     textAlign: TextAlign.start,
+    //     decoration: InputDecoration(
+    //       filled: true,
+    //       fillColor: Colors.white,
+    //       hintText: "Set session",
+    //       hintStyle: TextStyle(
+    //         fontWeight: FontWeight.w600,
+    //         fontSize: 12,
+    //         color: Colors.black.withOpacity(0.5),
+    //       ),
+    //     ),
+    //     keyboardType: TextInputType.text,
+    //     cursorColor: primaryColor,
+    //   ),
+    //   controlAffinity: ListTileControlAffinity.leading,
+    //   trailing: IconButton(
+    //     onPressed: (() {}),
+    //     iconSize: 15,
+    //     icon: Icon(
+    //       Icons.download,
+    //       color: Colors.black.withOpacity(0.5),
+    //     ),
+    //   ),
+    // ), //first tile of adding session
     ExpansionTile(
         leading: const Icon(
           Icons.circle,

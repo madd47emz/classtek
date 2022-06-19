@@ -1,16 +1,18 @@
 import '../constants/colors.dart';
 import 'package:flutter/material.dart';
 
-class Group extends StatefulWidget {
-  int num;
-  _GroupState state = _GroupState();
-  Group(this.num, {Key? key}) : super(key: key);
+class GroupCard extends StatefulWidget {
+  GroupCardState state;
+  GroupCard(this.state, {Key? key}) : super(key: key);
 
   @override
-  State<Group> createState() => state;
+  State<GroupCard> createState() => state;
 }
 
-class _GroupState extends State<Group> {
+class GroupCardState extends State<GroupCard> {
+  String name;
+  String id;
+  GroupCardState(this.name, this.id);
   bool tapped = false;
   bool isTapped() => tapped;
   @override
@@ -32,12 +34,7 @@ class _GroupState extends State<Group> {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            Icon(
-              Icons.group,
-              color: tapped ? primaryColor : Colors.white,
-              size: 30,
-            ),
-            Text("Group 1",
+            Text(name,
                 style: TextStyle(
                     color: tapped ? primaryColor : Colors.white,
                     fontSize: 12,

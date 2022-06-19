@@ -1,3 +1,4 @@
+import 'package:classtek/Models/student.dart';
 import 'package:classtek/View_Models/home_model_view.dart';
 import 'package:classtek/View_Models/login_model_view.dart';
 import 'package:classtek/constants/colors.dart';
@@ -50,7 +51,7 @@ class _LoginState extends State<Login> {
                                     Image.asset('assets/login.png',
                                         height:
                                             MediaQuery.of(context).size.height *
-                                                0.5,
+                                                0.33,
                                         width:
                                             MediaQuery.of(context).size.width,
                                         fit: BoxFit.cover),
@@ -204,10 +205,12 @@ class _LoginState extends State<Login> {
                                             ),
                                           );
                                           modelView.email = email;
-                                          modelView.password = password;
+                                          modelView.password =
+                                              password.toString();
                                           if (type == "student") {
                                             var student =
                                                 await modelView.studentLogin();
+                                            print(student.name);
                                             if (modelView.status) {
                                               Navigator.push(
                                                   context,
@@ -261,7 +264,8 @@ class _LoginState extends State<Login> {
                                                           Dash(
                                                               true,
                                                               HomeModelView(
-                                                                  null,
+                                                                  SMessage(
+                                                                      id: ""),
                                                                   teacher))));
                                             } else {
                                               showDialog(
@@ -283,7 +287,12 @@ class _LoginState extends State<Login> {
                                                                     context);
                                                               },
                                                               color:
-                                                                  primaryColor)
+                                                                  primaryColor,
+                                                              child: const Text(
+                                                                  'try again',
+                                                                  style: TextStyle(
+                                                                      color: Colors
+                                                                          .white)))
                                                         ],
                                                       ));
                                             }

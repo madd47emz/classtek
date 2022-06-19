@@ -28,14 +28,15 @@ class NewsCard extends StatelessWidget {
                       ),
                       Text(nMessage.message!),
                       GestureDetector(
-                        child: const Text("Attached file",
-                            style: TextStyle(
+                        child: Text(nMessage.fileUrl!,
+                            style: const TextStyle(
                                 decoration: TextDecoration.underline,
                                 color: primaryColor)),
                         onTap: () async {
                           var file = nMessage.fileUrl!;
                           if (!await launchUrl(
-                            nMessage.fileUrl!,
+                            Uri.parse(
+                                'https://schoolsystemmanagement-production-9724.up.railway.app/news/files/$file'),
                             mode: LaunchMode.externalApplication,
                           )) {
                             throw 'Could not launch $file';
